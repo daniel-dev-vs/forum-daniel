@@ -1,4 +1,4 @@
-package br.com.daniel.forum.config.valicao;
+package br.com.daniel.forum.config.validacao;
 
 import java.util.ArrayList;
 import java.util.List;

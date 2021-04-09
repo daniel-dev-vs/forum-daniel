@@ -8,13 +8,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import br.com.daniel.forum.dto.DetalhesTopicoDto;
 import br.com.daniel.forum.dto.TopicoDto;
+import br.com.daniel.forum.form.AtualizarTopicoForm;
 import br.com.daniel.forum.form.TopicoForm;
 import br.com.daniel.forum.modelo.Topico;
 import br.com.daniel.forum.repository.CursoRepository;
@@ -60,7 +64,7 @@ public class TopicoController {
 	
 	
 	
-	@RequestMapping("/porcurso")	
+	@GetMapping("/porcurso")	
 	public List<TopicoDto> topicosPorCurso(){
 		Long id = 1l;
 		
@@ -68,6 +72,22 @@ public class TopicoController {
 		
 		
 		return TopicoDto.Converter(topicos);
+	}
+	
+	@GetMapping("/{id}")
+	public DetalhesTopicoDto detalharTopico(@PathVariable Long id){
+		System.out.println(id);
+		DetalhesTopicoDto detalhes = new DetalhesTopicoDto(topicoRepository.getOne(id));
+		
+		return detalhes;
+		
+	}
+	
+	@PutMapping("/atualizar/{id}")
+	public ResponseEntity<Topico> atualizar(@PathVariable Long id, AtualizarTopicoForm form) {
+		Topico topico = form.atualizar(id, topicoRepository);
+		
+		return ResponseEntity.ok(topico);
 	}
 
 }
